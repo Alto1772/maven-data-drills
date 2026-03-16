@@ -1,0 +1,59 @@
+services:
+  mysql:
+    image: mysql:8.4
+    user: 1000:1000  # change according to your current user id
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: app
+      MYSQL_PASSWORD: apppass
+    # No persistence: store /var/lib/mysql in RAM (cleared when container is removed)
+    tmpfs:
+      - /var/lib/mysql
+    # Init runs on first initialization of the datadir
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - ./db/datasets:/datasets
+    ports:
+      - "3306:3306"
+    command: ["mysqld", "--secure-file-priv=/datasets"]
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_PORT: 3306
+  #   ports:
+  #     - "8080:80"
+
+  dbgate:
+    image: dbgate/dbgate
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - dbgate-data:/root/.dbgate
+    environment:
+      CONNECTIONS: default
+
+      LABEL_default: MySQL
+      SERVER_default: mysql
+      USER_default: root
+      PASSWORD_default: root
+      PORT_default: 3306
+      ENGINE_default: mysql@dbgate-plugin-mysql
+
+  # cloudbeaver:
+  #   image: dbeaver/cloudbeaver:latest
+  #   container_name: cloudbeaver
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8978:8978"
+  #   volumes:
+  #     - ./workspace:/opt/cloudbeaver/workspace
+
+volumes:
+  dbgate-data:
+    driver: local

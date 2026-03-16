@@ -1,0 +1,19 @@
+Your Objective
+--------------
+
+Your dataset contains the names of all the baseball players from the 2025 MLB season, along with their team(s) and position(s). A player qualifies for a position by starting at least 20 games at that position in the field or 5 games as a pitcher.
+
+Your task is to aggregate this data and return a table counting the number of players at each position, sorted from highest to lowest.
+
+*NOTE: If a player has multiple positions, they will count towards each position they played.*
+
+See example below:
+
+![](Example.png)
+
+# Question
+How many players make up the third most popular position?
+
+---
+
+Original URL: https://mavenanalytics.io/data-drills/splitting-the-field
