@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS lesson_streaks (
     date DATE,
     user_id INT,
     user_name VARCHAR(30),
-    PRIMARY KEY (id),
-    INDEX (user_id, lesson_id)
+    PRIMARY KEY (id)
 );
 
 LOAD DATA INFILE '/datasets/streak-leaderboard/LessonStreaks.csv'
